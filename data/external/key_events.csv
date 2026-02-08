@@ -1,0 +1,19 @@
+Event_Date,Event_Type,Event_Description,Region,Impact_Level
+1990-08-02,Iraq invades Kuwait,Gulf War begins - major supply disruption,Middle East,High
+1991-01-17,Operation Desert Storm,Coalition forces launch attack on Iraq,Middle East,High
+1997-11-30,OPEC Production Increase,OPEC increases production quotas,Global,Medium
+1998-12-01,Asian Financial Crisis,Asian economic crisis reduces demand,Asia,High
+2001-09-11,9/11 Attacks,Terrorist attacks cause market uncertainty,Global,High
+2003-03-20,Iraq War Begins,US-led invasion of Iraq begins,Middle East,High
+2008-07-11,Oil Price Peak,Oil reaches record high $147/barrel,Global,High
+2008-09-15,Global Financial Crisis,Lehman Brothers collapse triggers crisis,Global,High
+2011-02-15,Arab Spring,Political unrest in oil-producing countries,Middle East,Medium
+2011-03-11,Japan Earthquake,Tsunami and nuclear disaster reduce demand,Asia,Medium
+2014-06-20,ISIS Expansion,ISIS takes control of oil fields in Iraq/Syria,Middle East,Medium
+2014-11-27,OPEC Production Decision,OPEC decides not to cut production,Global,High
+2016-01-01,US Shale Revolution,US becomes major oil exporter,North America,High
+2020-01-01,COVID-19 Pandemic,Global pandemic reduces oil demand,Global,High
+2020-03-06,OPEC+ Price War,Russia-Saudi price war begins,Global,High
+2020-04-20,Negative Oil Prices,Oil futures go negative for first time,Global,High
+2022-02-24,Russia-Ukraine War,War begins causing supply concerns,Europe,High
+2022-10-05,OPEC+ Production Cut,OPEC+ announces 2M barrel/day cut,Global,High

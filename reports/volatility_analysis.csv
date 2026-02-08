@@ -1,0 +1,2 @@
+mean_volatility,annualized_volatility,min_volatility,max_volatility,mean_rolling_volatility,volatility_clustering
+0.02553219808262981,0.40531107930887195,0.0058069664084593655,0.18731448952196517,0.021564307214671622,True
