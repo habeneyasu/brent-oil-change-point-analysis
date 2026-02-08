@@ -127,16 +127,31 @@ class TimeSeriesAnalyzer:
                 }
                 
             elif method == 'kpss':
-                result = kpss(prices, regression='ct', nlags='auto')
+                import warnings
+                # Suppress the interpolation warning for extreme test statistics
+                with warnings.catch_warnings():
+                    warnings.filterwarnings('ignore', category=UserWarning)
+                    result = kpss(prices, regression='ct', nlags='auto')
+                
                 test_statistic = result[0]
                 p_value = result[1]
                 critical_values = result[3]
+                
+                # Handle extreme test statistics (outside lookup table range)
+                # If p-value is very small, it indicates strong non-stationarity
+                if p_value < 0.001:
+                    p_value = 0.001  # Set minimum p-value for extreme cases
+                    p_value_note = " (approximate - statistic outside lookup table range)"
+                else:
+                    p_value_note = ""
+                
                 is_stationary = p_value > 0.05
                 
                 stationarity_result = {
                     'test': 'KPSS',
                     'test_statistic': test_statistic,
                     'p_value': p_value,
+                    'p_value_note': p_value_note,
                     'critical_values': critical_values,
                     'is_stationary': is_stationary,
                     'interpretation': (
@@ -147,9 +162,10 @@ class TimeSeriesAnalyzer:
             else:
                 raise ValueError(f"Unknown method: {method}. Use 'adf' or 'kpss'")
             
+            p_note = stationarity_result.get('p_value_note', '')
             self.logger.info(
                 f"{method.upper()} test: {stationarity_result['interpretation']} "
-                f"(p={p_value:.4f})"
+                f"(p={p_value:.4f}{p_note})"
             )
             
             return stationarity_result
