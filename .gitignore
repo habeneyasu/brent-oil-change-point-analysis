@@ -69,6 +69,20 @@ tmp/
 temp/
 *.tmp
 
-# Documentation files (exclude all .md except README.md)
+# Generated reports (keep structure, ignore generated files)
+reports/*.png
+reports/*.csv
+reports/*.pdf
+!reports/.gitkeep
+
+# Documentation files (exclude all .md except README.md and docs/*.md)
 *.md
 !README.md
+!docs/*.md
+!tests/README.md
+!frontend/README.md
+
+# Documentation images (keep for markdown rendering)
+!docs/images/*.png
+!docs/images/*.jpg
+!docs/images/*.jpeg
