@@ -3,8 +3,6 @@ API routes for serving analysis data
 """
 
 from flask import Blueprint, jsonify
-import os
-import json
 
 api_bp = Blueprint('api', __name__)
 
