@@ -2,3 +2,6 @@ Flask>=2.3.0
 flask-cors>=4.0.0
 pandas>=1.4.0
 numpy>=1.22.0
+
+# Note: Main project dependencies (pymc, statsmodels, etc.) 
+# should be installed from root requirements.txt
