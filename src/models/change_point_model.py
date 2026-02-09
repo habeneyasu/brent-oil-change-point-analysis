@@ -167,27 +167,65 @@ class BayesianChangePointModel:
                     "No trace available. Run sample() first."
                 )
             
+            # Get available variable names from trace
+            available_vars = list(self.trace.posterior.data_vars.keys())
+            self.logger.debug(f"Available variables in trace: {available_vars}")
+            
+            # Handle prefixed variable names (e.g., "model_name::tau")
+            # Try to find variables with or without prefix
+            def find_vars(requested_names):
+                found_vars = []
+                for req_name in requested_names:
+                    for var in available_vars:
+                        if var.endswith(f"::{req_name}") or var == req_name:
+                            found_vars.append(var)
+                            break
+                return found_vars
+            
+            requested_vars = ["tau", "mu1", "mu2", "sigma"]
+            var_names = find_vars(requested_vars)
+            
+            if not var_names:
+                # If none of the requested vars are found, use all available
+                var_names = available_vars
+                self.logger.warning(
+                    f"Requested variables {requested_vars} not found. "
+                    f"Using available variables: {var_names}"
+                )
+            
             # Compute summary statistics
-            summary = az.summary(self.trace, var_names=["tau", "mu1", "mu2", "sigma"])
+            summary = az.summary(self.trace, var_names=var_names if var_names else None)
             
             # Check R-hat (should be < 1.01 for convergence)
-            r_hat = summary['r_hat'].to_dict()
-            converged = all(r < 1.01 for r in r_hat.values())
+            if 'r_hat' in summary.columns:
+                r_hat = summary['r_hat'].to_dict()
+                converged = all(r < 1.01 for r in r_hat.values())
+            else:
+                r_hat = {}
+                converged = None
+                self.logger.warning("R-hat not available in summary")
             
             # Effective sample size
-            ess = summary['ess_bulk'].to_dict()
+            ess = {}
+            if 'ess_bulk' in summary.columns:
+                ess = summary['ess_bulk'].to_dict()
+            elif 'ess' in summary.columns:
+                ess = summary['ess'].to_dict()
             
             convergence_results = {
                 'converged': converged,
                 'r_hat': r_hat,
                 'ess_bulk': ess,
-                'summary': summary
+                'summary': summary,
+                'available_vars': available_vars
             }
             
-            if converged:
+            if converged is True:
                 self.logger.info("✅ Model converged (all R-hat < 1.01)")
-            else:
+            elif converged is False:
                 self.logger.warning("⚠️ Model may not have converged (some R-hat >= 1.01)")
+            else:
+                self.logger.info("Convergence check completed (R-hat not available)")
             
             return convergence_results
             
@@ -209,8 +247,23 @@ class BayesianChangePointModel:
                     "No trace available. Run sample() first."
                 )
             
+            # Check available variables
+            available_vars = list(self.trace.posterior.data_vars.keys())
+            
+            # Handle prefixed variable names (e.g., "model_name::tau")
+            tau_var = None
+            for var in available_vars:
+                if var.endswith("::tau") or var == "tau":
+                    tau_var = var
+                    break
+            
+            if tau_var is None:
+                raise ChangePointModelError(
+                    f"Variable 'tau' not found in trace. Available variables: {available_vars}"
+                )
+            
             # Extract tau samples
-            tau_samples = self.trace.posterior["tau"].values.flatten()
+            tau_samples = self.trace.posterior[tau_var].values.flatten()
             
             # Compute statistics
             tau_mean = float(np.mean(tau_samples))
@@ -269,10 +322,38 @@ class BayesianChangePointModel:
                     "No trace available. Run sample() first."
                 )
             
+            # Check available variables
+            available_vars = list(self.trace.posterior.data_vars.keys())
+            
+            # Handle prefixed variable names (e.g., "model_name::mu1")
+            def find_var(name):
+                for var in available_vars:
+                    if var.endswith(f"::{name}") or var == name:
+                        return var
+                return None
+            
+            mu1_var = find_var("mu1")
+            mu2_var = find_var("mu2")
+            sigma_var = find_var("sigma")
+            
+            missing_vars = []
+            if mu1_var is None:
+                missing_vars.append("mu1")
+            if mu2_var is None:
+                missing_vars.append("mu2")
+            if sigma_var is None:
+                missing_vars.append("sigma")
+            
+            if missing_vars:
+                raise ChangePointModelError(
+                    f"Variables {missing_vars} not found in trace. "
+                    f"Available variables: {available_vars}"
+                )
+            
             # Extract parameter samples
-            mu1_samples = self.trace.posterior["mu1"].values.flatten()
-            mu2_samples = self.trace.posterior["mu2"].values.flatten()
-            sigma_samples = self.trace.posterior["sigma"].values.flatten()
+            mu1_samples = self.trace.posterior[mu1_var].values.flatten()
+            mu2_samples = self.trace.posterior[mu2_var].values.flatten()
+            sigma_samples = self.trace.posterior[sigma_var].values.flatten()
             
             # Compute statistics for each parameter
             def compute_stats(samples, name):
