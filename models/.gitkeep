@@ -1,1 +1,2 @@
-# Placeholder to keep directory in git
+# This directory stores trained model outputs
+# Model files (*.pkl, *.h5) are ignored by .gitignore

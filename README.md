@@ -18,7 +18,7 @@ This project employs Bayesian change point detection to identify when and how ma
 |------|--------|-------------|
 | **Task 1** | ✅ Complete | Workflow documentation, event data (18 events), EDA, visualizations |
 | **Task 2** | ✅ Complete | Bayesian model, MCMC sampling, convergence checks, event association, impact quantification |
-| **Task 3** | 🚧 In Progress | Interactive dashboard (Flask + React) |
+| **Task 3** | ✅ Complete | Interactive dashboard (Flask API + React frontend) |
 
 ## 🚀 Quick Start
 
@@ -35,6 +35,16 @@ python notebooks/01_task1_foundation_analysis.py
 python notebooks/02b_build_change_point_model.py
 python notebooks/02c_interpret_model_output.py
 python notebooks/02d_associate_events.py
+
+# Run Task 3: Dashboard
+# Terminal 1: Start Flask backend
+cd backend
+python app.py
+
+# Terminal 2: Start React frontend
+cd frontend
+npm install
+npm start
 
 # Run Tests
 pytest tests/ -v
@@ -86,7 +96,10 @@ brent-oil-change-point-analysis/
 
 - **[Task 1 Foundation](docs/task1_foundation.md)**: Analysis workflow, assumptions, limitations
 - **[Task 2 Analysis](docs/task2_analysis.md)**: Change point modeling and results
+- **[Task 3 Dashboard](docs/task3_dashboard.md)**: Interactive dashboard implementation
 - **[Advanced Extensions](docs/advanced_extensions.md)**: VAR models, Markov-Switching, multi-factor approaches
+- **[Backend API](backend/README.md)**: Flask API documentation
+- **[Frontend Guide](frontend/README.md)**: React dashboard documentation
 
 
-**Challenge Dates**: Feb 4-10, 2026 | **Status**: Task 1 & 2 Complete ✅
+**Challenge Dates**: Feb 4-10, 2026 | **Status**: All Tasks Complete ✅

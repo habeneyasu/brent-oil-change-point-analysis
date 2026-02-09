@@ -1,1 +1,2 @@
-# Placeholder to keep directory in git
+# This directory stores processed data files
+# Processed files (*.pkl, *.h5, *.parquet) are ignored by .gitignore
