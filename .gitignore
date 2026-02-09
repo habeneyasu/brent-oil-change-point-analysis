@@ -81,6 +81,8 @@ reports/*.pdf
 !docs/*.md
 !tests/README.md
 !frontend/README.md
+!frontend/SETUP.md
+!backend/README.md
 
 # Documentation images (keep for markdown rendering)
 !docs/images/*.png
