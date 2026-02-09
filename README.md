@@ -1,148 +1,92 @@
-# Change Point Analysis and Statistical Modeling of Brent Oil Prices
+# Brent Oil Change Point Analysis
 
-## Project Overview
+> **Detecting structural breaks in oil prices and quantifying the impact of geopolitical events using Bayesian inference**
 
-This project analyzes how major political and economic events affect Brent oil prices using Bayesian change point detection methods. The analysis identifies structural breaks in oil price time series and associates them with geopolitical events, OPEC decisions, and economic shocks.
+This project employs Bayesian change point detection to identify when and how major political and economic events cause structural shifts in Brent crude oil prices. Using PyMC and MCMC methods, we quantify the causal impact of events like OPEC decisions, geopolitical conflicts, and economic crises on global oil markets.
 
-## Project Structure
+## 🎯 Key Features
+
+- **Bayesian Change Point Detection**: PyMC-based model identifying structural breaks in price dynamics
+- **Event Association**: Links detected change points with 18+ key geopolitical and economic events
+- **Impact Quantification**: Probabilistic statements about price changes (e.g., "Following OPEC production cut, prices increased by X%")
+- **Production-Ready Codebase**: OOP design, comprehensive logging, exception handling, and unit tests
+- **Interactive Dashboard**: Flask backend + React frontend (Task 3)
+
+## 📊 Project Status
+
+| Task | Status | Deliverables |
+|------|--------|-------------|
+| **Task 1** | ✅ Complete | Workflow documentation, event data (18 events), EDA, visualizations |
+| **Task 2** | ✅ Complete | Bayesian model, MCMC sampling, convergence checks, event association, impact quantification |
+| **Task 3** | 🚧 In Progress | Interactive dashboard (Flask + React) |
+
+## 🚀 Quick Start
+
+```bash
+# Setup
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# Run Task 1: Foundation Analysis
+python notebooks/01_task1_foundation_analysis.py
+
+# Run Task 2: Change Point Detection
+python notebooks/02b_build_change_point_model.py
+python notebooks/02c_interpret_model_output.py
+python notebooks/02d_associate_events.py
+
+# Run Tests
+pytest tests/ -v
+```
+
+## 📁 Project Structure
 
 ```
 brent-oil-change-point-analysis/
 ├── data/
-│   ├── raw/                    # Original dataset files
-│   ├── processed/              # Cleaned and transformed data
-│   └── external/               # External event data (CSV files)
-├── notebooks/
-│   ├── 01_data_exploration.ipynb
-│   ├── 02_change_point_analysis.ipynb
-│   └── 03_insights_generation.ipynb
-├── src/
-│   ├── __init__.py
-│   ├── data_processing/
-│   │   ├── __init__.py
-│   │   ├── load_data.py
-│   │   └── preprocess.py
-│   ├── models/
-│   │   ├── __init__.py
-│   │   ├── change_point_model.py
-│   │   └── utils.py
-│   └── visualization/
-│       ├── __init__.py
-│       └── plots.py
-├── backend/
-│   ├── app.py                  # Flask application
-│   ├── config.py
-│   ├── api/
-│   │   ├── __init__.py
-│   │   ├── routes.py
-│   │   └── models.py
-│   └── requirements.txt
-├── frontend/
-│   ├── public/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── services/
-│   │   ├── utils/
-│   │   └── App.js
-│   ├── package.json
-│   └── README.md
-├── docs/
-│   ├── task1_foundation.md
-│   ├── task2_analysis.md
-│   └── task3_dashboard.md
-├── models/                     # Saved model outputs
-├── reports/                    # Generated reports and visualizations
-├── requirements.txt
-├── .gitignore
-└── README.md
+│   ├── raw/              # Brent oil price dataset
+│   ├── processed/        # Cleaned data
+│   └── external/         # Event data (18 key events)
+├── src/                  # Core modules
+│   ├── data_processing/  # Data loading & preprocessing
+│   ├── models/           # Bayesian change point models
+│   └── visualization/    # Plotting utilities
+├── notebooks/            # Analysis scripts
+├── backend/              # Flask API (Task 3)
+├── frontend/             # React dashboard (Task 3)
+├── docs/                 # Documentation
+└── reports/              # Generated visualizations & results
 ```
 
-## Setup Instructions
+## 🔬 Methodology
 
-### Prerequisites
-- Python 3.8+
-- Node.js 14+ (for frontend)
-- npm or yarn
+1. **Data Preparation**: Load 35 years of daily Brent prices (1987-2022), compute log returns
+2. **Bayesian Modeling**: PyMC change point model with discrete uniform prior on τ (change point location)
+3. **MCMC Sampling**: 4 chains, 2000 draws per chain, convergence diagnostics (R-hat < 1.01)
+4. **Event Association**: Match change points with events within 90-day window
+5. **Impact Quantification**: Probabilistic statements with credible intervals
 
-### Backend Setup
+## 📈 Key Results
 
-1. Create and activate virtual environment:
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+- **Change Point Detection**: Identifies structural breaks with uncertainty quantification
+- **Event Correlation**: Associates change points with OPEC decisions, conflicts, crises
+- **Impact Measurement**: Quantifies price changes in USD and percentage terms
+- **Visualizations**: Trace plots, posterior distributions, event overlays
 
-2. Install Python dependencies:
-```bash
-pip install -r requirements.txt
-```
+## 🛠️ Technology Stack
 
-3. Run Flask backend:
-```bash
-cd backend
-python app.py
-```
+- **Python**: pandas, numpy, PyMC, ArviZ, statsmodels
+- **Visualization**: matplotlib, seaborn
+- **Backend**: Flask, Flask-CORS
+- **Frontend**: React, Recharts
+- **Testing**: pytest
 
-### Frontend Setup
+## 📚 Documentation
 
-1. Navigate to frontend directory:
-```bash
-cd frontend
-```
+- **[Task 1 Foundation](docs/task1_foundation.md)**: Analysis workflow, assumptions, limitations
+- **[Task 2 Analysis](docs/task2_analysis.md)**: Change point modeling and results
+- **[Advanced Extensions](docs/advanced_extensions.md)**: VAR models, Markov-Switching, multi-factor approaches
 
-2. Install dependencies:
-```bash
-npm install
-```
 
-3. Start development server:
-```bash
-npm start
-```
-
-## Key Dates
-
-- Challenge Introduction: 10:30 AM UTC, Wednesday, 04 Feb 2026
-- Interim Solution: 8:00 PM UTC, Sunday, 08 Feb 2026
-- Final Submission: 8:00 PM UTC, Tuesday, 10 Feb 2026
-
-## Tasks
-
-### Task 1: Laying the Foundation for Analysis ✅
-
-**Status**: Completed
-
-**Deliverables**:
-- ✅ Comprehensive analysis workflow document (`docs/task1_foundation.md`)
-- ✅ Event data CSV with 18 key events (`data/external/key_events.csv`)
-- ✅ OOP-based data processing modules with logging and exception handling
-- ✅ Time series property analysis (trend, stationarity, volatility)
-- ✅ Unit tests for data loading and preprocessing
-- ✅ Professional visualizations
-- ✅ Documentation of assumptions and limitations
-
-**Run Task 1 Analysis**:
-```bash
-# Activate virtual environment
-source venv/bin/activate
-
-# Run the analysis script
-python notebooks/01_task1_foundation_analysis.py
-
-# Or use the Jupyter notebook interactively
-jupyter notebook notebooks/01_task1_foundation_analysis.ipynb
-```
-
-**Run Tests**:
-```bash
-pytest tests/ -v
-```
-
-- **Task 2**: Change Point Modeling and Insight Generation (Pending)
-- **Task 3**: Developing an Interactive Dashboard (Pending)
-
-## Team
-
-- Tutors: Kerod, Filimon, Mahbubah
-- Slack: #all-week11
-- Office Hours: Mon–Fri, 08:00–15:00 UTC
+**Challenge Dates**: Feb 4-10, 2026 | **Status**: Task 1 & 2 Complete ✅
