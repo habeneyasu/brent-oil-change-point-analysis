@@ -10,7 +10,7 @@ import seaborn as sns
 import pandas as pd
 import numpy as np
 from pathlib import Path
-from typing import Optional, Dict, List
+from typing import Optional
 import logging
 
 logger = logging.getLogger(__name__)

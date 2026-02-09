@@ -15,7 +15,6 @@ It includes:
 import sys
 from pathlib import Path
 import pandas as pd
-import numpy as np
 
 # Add src to path
 project_root = Path(__file__).parent.parent

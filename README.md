@@ -126,8 +126,11 @@ npm start
 # Activate virtual environment
 source venv/bin/activate
 
-# Run the analysis
-python run_task1.py
+# Run the analysis script
+python notebooks/01_task1_foundation_analysis.py
+
+# Or use the Jupyter notebook interactively
+jupyter notebook notebooks/01_task1_foundation_analysis.ipynb
 ```
 
 **Run Tests**:
